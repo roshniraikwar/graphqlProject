@@ -55,3 +55,17 @@ module.exports.studentList = {
         return data;
     }
 }
+
+module.exports.studentListById = {
+    type: new GraphQLList(studentType),
+    args: {
+        id: {
+            type: GraphQLString
+        },
+    },
+    resolve: async (parent, args, context) => {
+        const value = await context()
+        let data = await studentSchema.find({_id:args.id})
+        return data;
+    }
+}

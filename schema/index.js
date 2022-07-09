@@ -3,7 +3,7 @@ const {
     GraphQLObjectType,
     GraphQLSchema,
 } = graphql
-const {studentList} = require('./queries/student')
+const {studentList,studentListById} = require('./queries/student')
 const {addStudent,editStudent,deleteStudent} = require('./mutation/student')
 const {addteacher} = require('./mutation/teacher')
 const {login} = require('./mutation/auth')
@@ -13,6 +13,7 @@ const RootQuery = new GraphQLObjectType({
     name:'query',
     fields:{
       STUDENTLISTS:studentList,
+      STUDENTLISTBYID:studentListById
     }
 })
 
