@@ -18,7 +18,6 @@ const context = (req) => {
 (async () => {
     try {
         mongoose.connect(process.env.DB_URL, {});
-        console.log('Successfully connected database')
         app.use('/graphql', graphqlHTTP(async req => ({
             schema,
             graphiql: true,
@@ -26,7 +25,9 @@ const context = (req) => {
         })))
         const server = http.createServer(app);
         const port = process.env.PORT || 8000;
-        server.listen(port).on('listening', () => console.log(`App is starting on port: ${port}`)).on('error', (err) => console.log(`An error occured while starting server`, err))
+        server.listen(port).on('listening', 
+        () => console.log(`App is starting on port: ${port}`))
+        .on('error', (err) => console.log(`An error occured while starting server`, err))
     } catch (error) {
         console.log(error)
         console.log(`An error is happening with DB URL connection string`)

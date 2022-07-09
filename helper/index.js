@@ -1,4 +1,4 @@
 module.exports = {
-    generateTokens:require('./generateToken'),
-    pagination:require('./pagination')
+    generateTokens: require('./generateToken'),
+    pagination: require('./pagination')
 }

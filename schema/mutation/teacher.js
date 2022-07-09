@@ -1,10 +1,10 @@
-const teacherType = require('../typeDefs/teacher')
 const statusType = require('../typeDefs/status')
-const {GraphQLInt, GraphQLString} = require('graphql');
+const {GraphQLString} = require('graphql');
 const bcrypt = require('bcrypt')
-const {teacherSchema} = require('../../model')
+const {teacherSchema} = require('../../model');
+const { allConstant } = require('../../constants');
 
-module.exports.addteacher = {
+module.exports.addTeacher = {
     type: statusType,
     args: {
         name: {
@@ -35,7 +35,7 @@ module.exports.addteacher = {
         const hashPassword = await bcrypt.hash(password, salt)
         const data = await teacherSchema.findOne({email})
         if (data) {
-            return {message: "email is already exist"};
+            return {message:allConstant.EMAIL_IS_ALREADY_EXIST};
         }
         await teacherSchema.create({
             name,
@@ -44,6 +44,6 @@ module.exports.addteacher = {
             address,
             password: hashPassword
         })
-        return {message: "created successfully"};
+        return {message:allConstant.CREATED_SUCCESSFULLY};
     }
 }

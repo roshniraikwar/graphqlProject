@@ -48,10 +48,7 @@ module.exports.studentList = {
                 },
             ]
         }
-        let data = await studentSchema.find(condition)
-        .limit(limit).skip(offset)
-        .sort({[filed]: sortBy})
-        .sort({createdAt:-1})
+        let data = await studentSchema.find(condition).limit(limit).skip(offset).sort({[filed]: sortBy}).sort({createdAt: -1})
         return data;
     }
 }
@@ -61,11 +58,11 @@ module.exports.studentListById = {
     args: {
         id: {
             type: GraphQLString
-        },
+        }
     },
     resolve: async (parent, args, context) => {
-        const value = await context()
-        let data = await studentSchema.find({_id:args.id})
+        await context()
+        let data = await studentSchema.find({_id: args.id})
         return data;
     }
 }

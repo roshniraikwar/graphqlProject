@@ -1,9 +1,10 @@
 const teacherType = require('../typeDefs/teacher')
 const statusType = require('../typeDefs/status')
-const {GraphQLInt, GraphQLString} = require('graphql');
+const {GraphQLString} = require('graphql');
 const bcrypt = require('bcrypt')
 const {generateTokens} = require('../../helper')
 const {teacherSchema} = require('../../model')
+const {allConstant} = require('../../constants')
 
 module.exports.login = {
     type: statusType,
@@ -21,8 +22,8 @@ module.exports.login = {
         const comparePassword = await bcrypt.compareSync(args.password, userData.password)
         const token = generateTokens.generateToken(userData)
         if (comparePassword) {
-            return {message: "login successfully done", token: token, data: data};
+            return {message: allConstant.LOGIN, token: token, data: data};
         }
-        return {message: "password is not match"}
+        return {message: allConstant.PASSWORD_NOT_MATCH}
     }
 }
