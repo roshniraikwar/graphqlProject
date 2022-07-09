@@ -9,19 +9,49 @@ module.exports.studentList = {
         currentPage: {
             type: GraphQLInt
         },
-        limit: {
+        limits: {
             type: GraphQLInt
         },
         search: {
             type: GraphQLString
+        },
+        filed: {
+            type: GraphQLString
+        },
+        sortBy: {
+            type: GraphQLString
         }
     },
     resolve: async (parent, args, context) => {
+        const {
+            currentPage,
+            limits,
+            search,
+            filed,
+            sortBy
+        } = args
         const value = await context()
-        console.log(value,"value.....");
-        const {offset, limit} = pagination.paginationData(args.currentPage, args.limit)
-        console.log(offset, limit, ",.,.,.,.,.,.,..,");
-        let data = await studentSchema.find({teacherId: value.data._id}).limit(limit).skip(offset)
+        const {offset, limit} = pagination.paginationData(currentPage, limits)
+        let condition = {
+            teacherId: value.data._id
+        }
+        if (search) {
+            condition.$or = [
+                {
+                    name: {
+                        $regex: new RegExp(search.trim(), 'i')
+                    }
+                }, {
+                    email: {
+                        $regex: new RegExp(search.trim(), 'i')
+                    }
+                },
+            ]
+        }
+        let data = await studentSchema.find(condition)
+        .limit(limit).skip(offset)
+        .sort({[filed]: sortBy})
+        .sort({createdAt:-1})
         return data;
     }
 }

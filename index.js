@@ -10,7 +10,7 @@ app.use(express.json())
 
 const context = (req) => {
     const token = req.headers.authorization;
-    const data = jwt.verify(token, 'KEy')
+    const data = jwt.verify(token, process.env.SCREATEKEY)
     req.userData = data
     return req.userData
 }
